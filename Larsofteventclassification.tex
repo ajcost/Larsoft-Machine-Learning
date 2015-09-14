@@ -1,0 +1,180 @@
+\documentclass[svgnames]{report}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{amsmath, amssymb}
+\usepackage{tikz}
+\usepackage{wrapfig}
+\usepackage{kpfonts}
+\usepackage[explicit]{titlesec}
+\usetikzlibrary{shapes,snakes}
+\usepackage[some]{background}
+\usepackage{lipsum}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{sectsty}
+\usepackage{listings}
+\lstset{language=bash}
+\usepackage{minted}
+\definecolor{titlepagecolor}{cmyk}{1,.60,0,.40}
+\definecolor{steelblue}{RGB}{70,130,180}
+\definecolor{royalblue}{RGB}{39,64,139}
+\definecolor{lightpink}{RGB}{255,162,195}
+\sectionfont{\color{steelblue}}
+\subsectionfont{\color{lightpink}}
+\geometry{left=2.5cm, right=2.5cm, bottom=2cm, top=2.5cm}
+\usetikzlibrary{calc}
+
+\backgroundsetup{
+scale=1,
+angle=0,
+opacity=1,
+contents={\begin{tikzpicture}[remember picture,overlay]
+ \path [fill=titlepagecolor] (current page.west)rectangle (current page.north east); 
+ \draw [color=Maroon, very thick] (5,0)--(5,0.5\paperheight);
+ \node[inner sep=0pt] (logo) at (8,12)
+    {\includegraphics[width=.25\textwidth]{UPennLogo.png}};
+\end{tikzpicture}}
+}
+
+
+\newcommand*\chapterlabel{}
+\titleformat{\chapter}
+  {\gdef\chapterlabel{}
+   \normalfont\sffamily\Huge\bfseries\scshape}
+  {\gdef\chapterlabel{\thechapter\ }}{0pt}
+  {\begin{tikzpicture}[remember picture,overlay]
+    \node[yshift=-3.5cm] at (current page.north west)
+      {\begin{tikzpicture}[remember picture, overlay]
+        \draw[fill=Maroon, draw=none] (0,0) rectangle
+          (\paperwidth,3.5cm);
+        \node[anchor=center,
+              xshift=.5\paperwidth, 
+              yshift=.065\paperheight, rectangle,
+              ,inner sep=11pt,
+              fill=Maroon]
+              {\color{white}\chapterlabel#1};
+       \end{tikzpicture}
+      };
+   \end{tikzpicture}
+  }
+\titlespacing*{\chapter}{0pt}{50pt}{-60pt}
+
+% begin document here
+\begin{document}
+\begin{titlepage}
+\BgThispage
+\newgeometry{left=2.5cm, right = 2.5cm, bottom = 1cm}
+\vspace*{.2\textheight}
+\textcolor{white}{\Huge\textbf{\textsf{LArSoft and LArTPC \\ \\ Event Classification \\ \\ with Machine Learning}}} \\ \\
+\textcolor{white}{\textbf{\textsf{Adam Costarino, Joshua Klein}}}
+\vspace*{3.5cm}\par
+\noindent
+\begin{minipage}{\linewidth}
+\vspace{3pt}
+    \section*{Abstract}
+        \begin{tikzpicture}[remember picture, overlay]
+            \draw[fill=Maroon, draw=none] (-2.5,0) rectangle
+            (3.5cm, .15cm);
+        \end{tikzpicture} \\ \\
+The following is an approach to automated classification of neutrino events within a liquid argon tank time-projection chamber. Such events can be mapped with a series of wire planes that detect ionization electrons to create a three-dimensional track of the particles path. By analyzing these tracks it is possible to identify the flavor of neutrino that initiated the event. We would like to investigate if it is possible for a machine to efficiently classify such events solely based on the track.  
+\end{minipage}
+\end{titlepage}
+    \section*{Introduction}
+        \begin{tikzpicture}[remember picture, overlay]
+            \draw[fill=Maroon, draw=none] (-2.5,0) rectangle
+            (3.5cm, .15cm);
+        \end{tikzpicture} \\ \\
+\indent In 1956 two physicists, Cowan and Reines, confirmed the existence of the neutrino, a small and nearly massless particle that travels at speeds close to light. They did so by using a nuclear reactor at Los Alamos and two tanks of water filled with liquid scintillator to finally confirm Pauli's hypothesis of neutron double beta decay proposed in 1930.\\
+\indent DUNE (Deep Underground Neutrino Experiment) is a proposed neutrino detector to be located at the Homestake Mine in Lead, South Dakota. The detector would observe neutrinos produced 800 miles away at Fermi National Accelerator Laboratory (FNAL or Fermilab) located in Batavia, Illinois. The experiment is an attempt to study neutrino oscillation and determine if neutrinos are they are Majorana particles, meaning that a neutrino is its own antiparticle. A particle's antiparticle has the same mass but opposite magnetic and electric properties. Therefore when a particle collides with its antiparticle both are annihilated producing electromagnetic radiation. Interestingly, all standard model fermions are not their own antiparticles, making them Dirac fermions, however the nature of the neutrino is not confirmed. \\ 
+\indent The detector at the Homestake Mine will be a Time-Projection Chamber(LArTPC). To be more specific the tank will be filled with liquid argon and when an incoming neutrino enters the tank it will create an electron or a muon. The type of particle the neutrino produces depends on its flavor. A electron neutrino will produce an electron when it interacts with an atomic nucleus and a muon neutrino will produce muon. There does exist a third flavor, tau neutrino, however they cannot be detected by this detector because they are not energentic enough to produce a tau particle upon interaction.  As the electron or muon moves through the liquid argon it ionizes the atoms and this ionization can be detected by wires that will allow for a three-dimensional reconstruction of the particles track. Based on the patterns of the track it is possible to identify the type of particle that was produced and thus identify the flavor of neutrino that produced the event.
+\chapter*{Methodology}
+        \section*{Materials}
+            \begin{tikzpicture}[remember picture, overlay]
+                \draw[fill=royalblue, draw=none] (-2.5,0) rectangle
+                (6cm, .15cm);
+            \end{tikzpicture} \\ \\
+
+%Support Vector Machine
+\chapter*{Support Vector Machines}
+    \indent Support Vector Machines(SVMs) are a specific type of machine learning algorithm that learns using examples with assigned classes. They are generally used for classification and regression analyses, making them a prime choice for image classification.
+    \section*{Explanation and Mathematics}
+        \begin{tikzpicture}[remember picture, overlay]
+            \draw[fill=royalblue, draw=none] (-2.5,0) rectangle (6cm, .15cm);
+        \end{tikzpicture} \\ \\
+        \indent SVMs work by constructing a set of boundaries, formally called hyperplanes, within a dimensionality of space required for the dataset to be linearly separable, i.e in a one dimensional dataset the separating hyperplane is a point, in a two dimensional dataset the hyperplane is a line, in three dimensions the hyperplane is a plane, and so on. These hyperplanes differentiate the data into a predefined number of classes, such that the dividing hyperplanes have the optimal amount of points belonging to same class on the same side while maximizing distance between classes.\\
+        \tikzstyle{mybox} = [draw=none, fill=red!20, very thick,
+            rectangle, inner xsep=10pt, inner ysep=10pt]
+        \begin{tikzpicture}
+            \node [mybox] (box1){%
+                \includegraphics[width=65mm,height=40mm]{svms_fig_00.png}
+            };
+            \node[mybox, xshift=35mm, anchor=west] (box2){
+                \includegraphics[width=65mm,height=40mm]{XXbdy.png}
+            };
+            \node[mybox, anchor=north,yshift=-20mm, inner ysep=0pt] (box3){Figure 2.1};
+            \node[mybox, anchor=north,yshift=-20mm, xshift=70mm, inner ysep=0pt] (box4){Figure 2.2};
+            \node[mybox, anchor=west, xshift=106mm, align=center, text width=35mm, inner xsep=20pt] (box5) {
+            Figure 2.1: Shows a SVM with a linear kernel dividing data into three distinct classes.\\
+            Figure 2.2: Shows SVMs with non-linear kernels dividing data into three distinct classes.};
+        \end{tikzpicture}
+        \indent Unfortunately, many data sets are not cleanly separable so SVMs use other tools and methods to account for more complexity. It would be useful for SVMs to correct for times when the data falls on the wrong side of the dividing hyperplane, so SVMs implement a \textbf{soft margin} in order to account for these outlying cases. A soft margin allows for some data points to be on the incorrect side of the hyperplane without affecting the final state of the system and thus making the classifier more accurate. Yet, The soft margin can become problematic, when the data overlaps too much the soft margin may allow for too many misclassifications. To prevent this overfitting, SVMs generally implement a limit to the number of data points that can be accounted for by the soft margin. \\
+        \indent Similarly, SVMs also implement \textbf{kernel functions} to allow for better classifications results on complex data sets. Kernel functions allow the SVM to add extra dimensionality to the existing data set. To provide a more in depth explanation, a Kernel function is a mathematical mapping of data into a higher dimensionality (e.g $x\; \rightarrow \; <x,x^2>$). This allows for linear hyperplanes to create non-linear class boundaries; data that is too complex to be separated with a linear line in its current dimension can be separated by a linear line in a higher dimension. \\
+        \tikzstyle{mybox} = [draw=none, fill=red!20, very thick,
+            rectangle, inner xsep=10pt, inner ysep=10pt]
+        \begin{tikzpicture}
+            \node [mybox] (box1){%
+                \includegraphics[width=80mm,height=40mm]{1gvce.png}
+            };
+            \node[mybox, anchor=north,yshift=-20mm, inner ysep=0pt] (box3){Figure 2.3};
+            \node[mybox, anchor=west, xshift=40mm, align=left, text width=95mm, inner xsep=20pt, inner ysep=27pt] (box5) {
+            Figure 2.3: This is a visual representation of a kernel function being used to map input data into a higher dimension. In the original data set, a linear hyperplane could not be used to separate the two classes. However, the kernel function ($\phi$) transformed the 2-dimensional data into a 3-dimensional feature space allowing the SVM to properly create class divisions.
+            };
+        \end{tikzpicture} \\
+        \indent While any mathematical map can be used as a kernel function, some functions perform much better than others. When discussing machine learning, there are a couple of functions that have been created specifically for SVM optimization. There is the n\textsuperscript{th} degree polynomial kernel ($\;K\:(x,y)\;=\;(x^Ty\:+\:c)^n\;$) that allows for similar vectors to be mapped in close proximity in a higher dimensional feature space. The sigmoid kernel ...
+    \section*{Results}
+        \begin{tikzpicture}[remember picture, overlay]
+            \draw[fill=royalblue, draw=none] (-2.5,0) rectangle (6cm, .15cm);
+        \end{tikzpicture} \\ \\
+        \indent As a start, twelve-hundred LArSoft events were analyzed by SVMs with different kernel functions to determine the kernel that produced optimal performace. After the SVMs fit to the training data they were each tested on onehundred-fifty new LArSoft events to determine their classification accuracy. \\
+        \tikzstyle{mybox} = [draw=none, fill=red!20, very thick,
+            rectangle]
+        \begin{tikzpicture}
+            \node [mybox] (box1){%
+                \includegraphics[width=1.15\textwidth,height=110mm]{20150814044023.png}
+            };
+            \node[mybox, anchor=north,yshift=-20mm, inner ysep=0pt] (box3){Figure 2.3};
+            \end{tikzpicture}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\chapter*{Examples and Tutorials}
+\section*{Introduction to LArSoft}
+        \begin{tikzpicture}[remember picture, overlay]
+            \draw[fill=royalblue, draw=none] (-2.5,0) rectangle
+            (6cm, .15cm);
+        \end{tikzpicture} \\ \\
+\indent LArSoft is a software created by Fermilab that simulates neutrino events in a liquid argon tank. The output is a root file that can be deciphered by an event display to produce a three panel image of the track produced by the neutrino event. In order to simulate events in Liquid Argon a connection to the Fermilab nodes is neccessary unless a version of LArSoft is installed on a personal machine or another machine that you can access. To obtain a connection to the Fermilab nodes you first must acquire an account with one of the experiments at Fermilab then register your personal machine with the Fermilab nodes.
+\indent Once an account is obtained and your machine is registered with the Fermilab nodes you can create a Secure Shell tunnel connection to the fermilab nodes. To do this run the \texttt{kinit} command to obtain Kerberos tickets and then enter your Kerberos password when prompted. This provides you with tickets that are valid for 26 hours, and as long as these tickets are valid it is possible to connect via SSH to the Fermilab nodes. If your tickets are not valid then you must obtain new ones via the kinit command. To connect via SSH to fermilab simply type \texttt{ssh [yourusernamehere]@[experimentabbreviation]gpvm01.fnal.gov}. If all goes well you should be able to connect. \\
+
+\section*{Running Simulations in LArSoft}
+        \begin{tikzpicture}[remember picture, overlay]
+            \draw[fill=royalblue, draw=none] (-2.5,0) rectangle
+            (6cm, .15cm);
+        \end{tikzpicture} \\ \\
